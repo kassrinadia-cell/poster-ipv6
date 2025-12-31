@@ -13,6 +13,8 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -21,13 +23,19 @@ body {
   background: linear-gradient(135deg, #0b132b 0%, #1b263b 100%);
   color: #ffffff;
   line-height: 1.6;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .poster {
+  width: 100%;
   max-width: 100%;
   padding: 2rem;
   border: 0.5rem solid #00f5d4;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 /* Pour impression A1 */
@@ -36,6 +44,12 @@ body {
     width: 59.4cm;
     height: 84.1cm;
     padding: 3cm;
+    margin: 0 auto;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
   }
 }
 
@@ -56,6 +70,7 @@ h2 {
 
 .section {
   margin-top: 2.5rem;
+  width: 100%;
 }
 
 .section-title {
@@ -67,6 +82,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.625rem;
+  width: 100%;
 }
 
 .box {
@@ -76,6 +92,7 @@ h2 {
   border-radius: 0.625rem;
   margin-bottom: 1.25rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  width: 100%;
 }
 
 .code {
@@ -88,18 +105,21 @@ h2 {
   border: 1px solid #4cc9f0;
   overflow-x: auto;
   line-height: 1.4;
+  width: 100%;
 }
 
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .grid-3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -118,6 +138,7 @@ table {
   margin-top: 1rem;
   display: block;
   overflow-x: auto;
+  max-width: 100%;
 }
 
 th, td {
@@ -144,6 +165,7 @@ th {
   align-items: flex-start;
   gap: 0.625rem;
   font-size: clamp(0.875rem, 2vw, 1rem);
+  width: 100%;
 }
 
 .highlight {
@@ -153,6 +175,7 @@ th {
   border-radius: 0.5rem;
   margin: 1rem 0;
   font-size: clamp(0.875rem, 2vw, 1rem);
+  width: 100%;
 }
 
 .note {
@@ -163,6 +186,7 @@ th {
   margin: 1rem 0;
   font-style: italic;
   font-size: clamp(0.875rem, 2vw, 1rem);
+  width: 100%;
 }
 
 .footer {
@@ -172,6 +196,18 @@ th {
   color: #ffd166;
   border-top: 2px solid #4cc9f0;
   padding-top: 1.5rem;
+  width: 100%;
+}
+
+.credits {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  color: #9d4edd;
+  border-top: 1px solid #4cc9f0;
+  padding-top: 1rem;
+  line-height: 1.5;
+  width: 100%;
 }
 
 .subsection {
@@ -191,6 +227,7 @@ th {
   border: 2px solid #9d4edd;
   font-size: clamp(0.875rem, 2vw, 1.25rem);
   overflow-x: auto;
+  width: 100%;
 }
 
 .color-key {
@@ -199,6 +236,7 @@ th {
   gap: 1rem;
   justify-content: center;
   margin: 1rem 0;
+  width: 100%;
 }
 
 .color-item {
@@ -242,6 +280,7 @@ th {
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 1rem 0;
+  width: 100%;
 }
 
 .example-note {
@@ -303,12 +342,18 @@ th {
     width: 100%;
     justify-content: center;
   }
+  
+  .credits {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
 }
 
 /* Pour les très grands écrans */
 @media (min-width: 1200px) {
   .poster {
-    max-width: 1200px;
+    max-width: 100%;
+    padding: 2rem 4rem;
   }
 }
 
@@ -334,6 +379,16 @@ li {
 .code-break {
   word-break: break-all;
   overflow-wrap: break-word;
+}
+
+/* Affichage plein écran */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 </style>
 </head>
@@ -688,9 +743,16 @@ Change périodiquement<br>
   </div>
 </div>
 
+<!-- CREDITS -->
+<div class="credits">
+  <p><strong>Réalisé par :</strong> KASSRI Nadia</p>
+  <p><strong>Université :</strong> Ibn Tofail</p>
+  <p><strong>Référence principale :</strong> Cisco Networking Academy</p>
+  <p><strong>Design et vérification syntaxique :</strong> DeepSeek & ChatGPT 5.2</p>
+</div>
+
 <div class="footer">
   Poster Complet IPv6 - Adressage et Attribution des Adresses<br>
-  Format A1 (59.4 × 84.1 cm) - Pour formation et référence réseau L3
 </div>
 
 </div>
