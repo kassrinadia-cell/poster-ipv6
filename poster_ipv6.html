@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poster Complet – Adressage IPv6</title>
+
+<style>
+@page { 
+  size: A1 portrait; 
+  margin: 20mm; 
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #0b132b 0%, #1b263b 100%);
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.poster {
+  max-width: 100%;
+  padding: 2rem;
+  border: 0.5rem solid #00f5d4;
+  margin: 0 auto;
+}
+
+/* Pour impression A1 */
+@media print {
+  .poster {
+    width: 59.4cm;
+    height: 84.1cm;
+    padding: 3cm;
+  }
+}
+
+h1 {
+  text-align: center;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  margin-bottom: 0.5rem;
+  color: #00f5d4;
+  text-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+}
+
+h2 {
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  margin-top: 0;
+  color: #4cc9f0;
+}
+
+.section {
+  margin-top: 2.5rem;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #f72585;
+  border-bottom: 3px solid #f72585;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.box {
+  background: rgba(255,255,255,0.08);
+  border-left: 0.375rem solid;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  background: #1c2541;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  margin: 0.75rem 0;
+  border: 1px solid #4cc9f0;
+  overflow-x: auto;
+  line-height: 1.4;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  display: block;
+  overflow-x: auto;
+}
+
+th, td {
+  border: 2px solid #4cc9f0;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  min-width: 120px;
+}
+
+th {
+  background: rgba(76,201,240,0.25);
+  text-align: center;
+  font-weight: bold;
+}
+
+.warning {
+  background: rgba(255, 158, 0, 0.2);
+  border: 2px solid #ff9e00;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.highlight {
+  background: rgba(0, 245, 212, 0.2);
+  border: 2px solid #00f5d4;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.note {
+  background: rgba(157, 78, 221, 0.2);
+  border: 2px solid #9d4edd;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  font-style: italic;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: #ffd166;
+  border-top: 2px solid #4cc9f0;
+  padding-top: 1.5rem;
+}
+
+.subsection {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  color: #ffd166;
+  margin: 1rem 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.hex-visual {
+  text-align: center;
+  font-family: 'Consolas', monospace;
+  background: #1c2541;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  border: 2px solid #9d4edd;
+  font-size: clamp(0.875rem, 2vw, 1.25rem);
+  overflow-x: auto;
+}
+
+.color-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.color-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 0.375rem;
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+}
+
+.color-box {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+}
+
+/* Couleurs pour les boxes */
+.box-gua { border-left-color: #00f5d4; }
+.box-lla { border-left-color: #4cc9f0; }
+.box-ula { border-left-color: #9d4edd; }
+.box-multicast { border-left-color: #f72585; }
+.box-special { border-left-color: #ffd166; }
+.box-config { border-left-color: #7209b7; }
+
+.command {
+  color: #00f5d4;
+  font-weight: bold;
+}
+
+.comment {
+  color: #ff9e00;
+  font-style: italic;
+}
+
+.config-example {
+  background: rgba(114, 9, 183, 0.2);
+  border: 2px solid #7209b7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.example-note {
+  color: #ff9e00;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .poster {
+    padding: 1rem;
+    border-width: 0.25rem;
+  }
+  
+  .section {
+    margin-top: 1.5rem;
+  }
+  
+  .box {
+    padding: 1rem;
+  }
+  
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+  }
+  
+  .hex-visual {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .color-key {
+    justify-content: flex-start;
+  }
+  
+  .color-item {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Pour les très grands écrans */
+@media (min-width: 1200px) {
+  .poster {
+    max-width: 1200px;
+  }
+}
+
+/* Amélioration de l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Amélioration de la lisibilité sur mobile */
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Ajustements pour les longues adresses IPv6 */
+.code-break {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+</style>
+</head>
+
+<body>
+<div class="poster">
+
+<h1>🌐 IPv6</h1>
+<h2>Adressage IPv6 - Guide Complet</h2>
+
+<!-- 1 STRUCTURE -->
+<div class="section">
+  <div class="section-title">📌 1. Structure de l'adresse IPv6</div>
+  <div class="box">
+    <div class="hex-visual code-break">
+      2001:0db8:0000:0000:0000:ff00:0042:8329<br>
+      <span style="font-size: 0.875rem; color: #4cc9f0;">Format complet sans simplification</span>
+    </div>
+    <ul>
+      <li><strong>128 bits</strong> (32 caractères hexadécimaux)</li>
+      <li>Notation <strong>hexadécimale</strong> (0-9, A-F)</li>
+      <li>8 blocs de 16 bits appelés <strong>hextets</strong></li>
+      <li>Séparés par des deux-points <strong>:</strong></li>
+      <li><strong>Non sensible à la casse</strong> (majuscules/minuscules)</li>
+      <li>Chaque caractère hexa représente 4 bits</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 2 SIMPLIFICATION -->
+<div class="section">
+  <div class="section-title">✂️ 2. Simplification des adresses IPv6</div>
+  <div class="grid-2">
+    <div class="box">
+      <div class="subsection">Règle 1 : Zéros initiaux</div>
+      <p>Supprimer les zéros en début d'hextet.</p>
+      <div class="warning">
+        ⚠️ Cette règle s'applique uniquement aux zéros situés au début d'un hextet, jamais à ceux de fin.
+      </div>
+      <div class="code">0db8 → db8<br>0000 → 0</div>
+    </div>
+    <div class="box">
+      <div class="subsection">Règle 2 : Double deux-points (::)</div>
+      <p>Remplacer une seule suite continue d'hextets contenant uniquement des zéros.</p>
+      <div class="code code-break">
+        Format complet : 2001:0db8:0000:1111:0000:0000:0000:0200<br>
+        → Simplifié : 2001:db8:0:1111::200
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 TYPES -->
+<div class="section">
+  <div class="section-title">📬 3. Types d'adresses IPv6</div>
+  <div class="grid-3">
+    <div class="box box-gua">
+      <strong>🔹 Monodiffusion (Unicast)</strong><br>
+      Identifie une interface unique
+    </div>
+    <div class="box box-multicast">
+      <strong>🔸 Multidiffusion (Multicast)</strong><br>
+      Un paquet vers plusieurs destinations
+    </div>
+    <div class="box box-special">
+      <strong>🔺 Anycast</strong><br>
+      Adresse partagée, routée vers le plus proche
+    </div>
+  </div>
+  <div class="warning">
+    ❌ Pas d'adresse de diffusion (broadcast) en IPv6. À la place, une adresse de multidiffusion "tous les nœuds" remplit le même rôle.
+  </div>
+</div>
+
+<!-- 4 PREFIXE -->
+<div class="section">
+  <div class="section-title">📏 4. Longueur de préfixe IPv6</div>
+  <div class="box">
+    <ul>
+      <li>On ne parle pas de <strong>masque de sous-réseau</strong> mais de <strong>longueur de préfixe</strong></li>
+      <li>Notation : <strong>/n</strong> (ex: /64)</li>
+      <li>Valeurs possibles : de <strong>/0 à /128</strong></li>
+      <li><strong>/64 recommandé</strong> pour les réseaux locaux (LAN)</li>
+      <li>Partie réseau = <strong>préfixe</strong></li>
+      <li>Partie hôte = <strong>ID d'interface (Interface Identifier)</strong></li>
+      <li>L'ID d'interface sur 64 bits est nécessaire pour la configuration automatique (SLAAC)</li>
+    </ul>
+    <div class="code">2001:db8:acad::1/64</div>
+  </div>
+</div>
+
+<!-- 5 UNICAST -->
+<div class="section">
+  <div class="section-title">🌐 5. Adresses de Monodiffusion IPv6</div>
+  <div class="grid-3">
+    <div class="box box-gua">
+      <div class="subsection">🌍 GUA<br>(Global Unicast Address)</div>
+      <ul>
+        <li>Équivalent IPv4 publique</li>
+        <li>Unique à l'échelle mondiale</li>
+        <li>Routable sur Internet</li>
+        <li>Plage : 2000::/3</li>
+        <li>3 bits de poids fort = 001</li>
+      </ul>
+      <div class="code">2001:db8::1</div>
+      <div class="example-note">Exemple d'adresse GUA</div>
+      <div class="note">
+        <strong>Note :</strong> Le préfixe 2001:db8::/32 est réservé pour la documentation
+      </div>
+    </div>
+    <div class="box box-lla">
+      <div class="subsection">🔗 LLA<br>(Link-Local Address)</div>
+      <ul>
+        <li><strong>Obligatoire</strong> pour tout périphérique IPv6</li>
+        <li>Communication locale uniquement</li>
+        <li>Non routable au-delà de la liaison</li>
+        <li>Plage : fe80::/10</li>
+        <li>Sert à la communication locale sur le même lien (sous-réseau)</li>
+      </ul>
+      <div class="code">fe80::1</div>
+      <div class="example-note">Exemple d'adresse LLA</div>
+    </div>
+    <div class="box box-ula">
+      <div class="subsection">🏠 ULA<br>(Unique Local Address)</div>
+      <ul>
+        <li>Pour communication interne</li>
+        <li>Non routable sur Internet</li>
+        <li>fc00::/7 (usage courant : fd00::/8)</li>
+        <li>Préfixe ULA généralement généré pseudo-aléatoirement</li>
+        <li>Permet la connectivité locale stable, même sans connexion Internet</li>
+      </ul>
+      <div class="code">fd00::1</div>
+      <div class="example-note">Exemple d'adresse ULA</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 ADRESSES SPECIALES -->
+<div class="section">
+  <div class="section-title">🎯 6. Adresses spéciales IPv6</div>
+  <div style="overflow-x: auto;">
+    <table>
+      <tr><th>Type</th><th>Adresse</th><th>Description</th></tr>
+      <tr><td><strong>Loopback</strong></td><td>::1/128</td><td>Test local (ping ::1), dernier bit à 1<br>Non attribuable à une interface physique</td></tr>
+      <tr><td><strong>Non spécifiée</strong></td><td>::/128</td><td>Source temporaire<br>Utilisée quand le périphérique n'a pas encore d'adresse IPv6 permanente</td></tr>
+      <tr><td><strong>IPv4-compatible</strong></td><td>::Adresse IPv4</td><td>Obsolète - Préfixe de 96 bits à 0, suivi de l'adresse IPv4</td></tr>
+      <tr><td><strong>IPv4-mappée</strong></td><td>::FFFF:Adresse IPv4</td><td>Transition IPv4 ↔ IPv6 (toujours utilisée)<br>Préfixe ::FFFF: suivi de l'adresse IPv4</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 7 MULTICAST -->
+<div class="section">
+  <div class="section-title">📢 7. Adresses de Multidiffusion IPv6</div>
+  <div class="box box-multicast">
+    <ul>
+      <li><strong>Préfixe : ff00::/8</strong></li>
+      <li class="warning">⚠️ Une adresse multicast ne peut être utilisée que comme adresse de destination et ne peut jamais être utilisée comme adresse source.</li>
+    </ul>
+    <div class="grid-2">
+      <div>
+        <div class="subsection">Bien connues (Well-Known)</div>
+        <div class="code">
+          <span class="command">ff02::1</span> - Groupe "Tous les nœuds"<br>
+          <span class="comment">// Tous les équipements IPv6 rejoignent</span><br><br>
+          <span class="command">ff02::2</span> - Groupe "Tous les routeurs"<br>
+          <span class="comment">// Seuls les routeurs IPv6 rejoignent</span>
+        </div>
+      </div>
+      <div>
+        <div class="subsection">Nœud sollicité (Solicited-Node)</div>
+        <div class="highlight">
+          💡 Chaque adresse IPv6 unicast possède automatiquement une adresse multicast de nœud sollicité.
+        </div>
+        <p>Utilisée pour Neighbor Discovery (NS/NA)<br>Préfixe : ff02::1:ff00:0/104</p>
+        <div class="code">
+          IPv6 : 2001:db8::1234<br>
+          Solicited-Node : ff02::1:ff00:1234
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 ATTRIBUTION STATIQUE -->
+<div class="section">
+  <div class="section-title">⚙️ 8. Attribution Statique des Adresses IPv6</div>
+
+  <div class="config-example">
+    <div class="subsection">IPv6 - GUA Statique</div>
+    <div class="code">
+Router(config)# interface GigabitEthernet0/0<br>
+Router(config-if)# ipv6 address 2001:db8:acad:1::1/64<br>
+Router(config-if)# no shutdown
+    </div>
+  </div>
+
+  <div class="config-example">
+    <div class="subsection">IPv6 - LLA Statique</div>
+    <div class="code">
+Router(config)# interface GigabitEthernet0/0<br>
+Router(config-if)# ipv6 address fe80::1 link-local<br>
+<span class="comment">// Note : Une LLA est automatiquement générée si non configurée manuellement</span>
+    </div>
+  </div>
+</div>
+
+<!-- 9 ATTRIBUTION DYNAMIQUE -->
+<div class="section">
+  <div class="section-title">🔄 9. Attribution Dynamique des Adresses IPv6</div>
+  
+  <div class="box box-config">
+    <div class="subsection">IPv6 - Mécanismes</div>
+    <ul>
+      <li><strong>SLAAC</strong> (Stateless Address Autoconfiguration)</li>
+      <li><strong>DHCPv6 Stateless</strong> : SLAAC + paramètres supplémentaires</li>
+      <li><strong>DHCPv6 Stateful</strong> : Attribution complète comme DHCPv4</li>
+    </ul>
+    <div class="note">
+      En IPv6, un périphérique peut avoir plusieurs méthodes d'attribution simultanément
+    </div>
+  </div>
+</div>
+
+<!-- 10 SLAAC -->
+<div class="section">
+  <div class="section-title">🤖 10. SLAAC (Stateless Address Autoconfiguration)</div>
+  
+  <div class="box">
+    <div class="subsection">Processus SLAAC</div>
+    <ol>
+      <li>Une adresse Link-Local (fe80::/10) est automatiquement attribuée à l'interface afin de permettre les échanges Neighbor Discovery (RS/RA)</li>
+      <li>Il envoie un <strong>Router Solicitation (RS)</strong> à ff02::2</li>
+      <li>Le routeur répond avec un <strong>Router Advertisement (RA)</strong></li>
+      <li>Le RA contient le préfixe réseau (ex: /64)</li>
+      <li>Le périphérique combine le préfixe avec son ID d'interface</li>
+      <li>Adresse GUA créée automatiquement</li>
+      <li>Vérification d'unicité (DAD)</li>
+    </ol>
+    
+    <div class="subsection">Génération de l'ID d'interface</div>
+    <div class="grid-2">
+      <div>
+        <strong>Méthode EUI-64 :</strong>
+        <div class="code">
+Adresse MAC : 00:1A:2B:3C:4D:5E<br>
+1. Insère FF:FE au milieu : 00:1A:2B:FF:FE:3C:4D:5E<br>
+2. Inverse le 7ème bit : 02:1A:2B:FF:FE:3C:4D:5E<br>
+→ ID d'interface : 021a:2bff:fe3c:4d5e
+        </div>
+      </div>
+      <div>
+        <strong>Génération aléatoire :</strong>
+        <div class="code">
+Méthode moderne pour la vie privée<br>
+Génère un ID d'interface aléatoire<br>
+Change périodiquement<br>
+→ Meilleure protection de la vie privée
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 DHCPv6 -->
+<div class="section">
+  <div class="section-title">📡 11. DHCPv6 - Deux Modes</div>
+  
+  <div class="grid-2">
+    <div class="box box-config">
+      <div class="subsection">DHCPv6 Stateless</div>
+      <ul>
+        <li><strong>Adresse :</strong> Générée par SLAAC</li>
+        <li><strong>DHCPv6 :</strong> Fournit paramètres supplémentaires</li>
+        <li><strong>Fourni :</strong> DNS, NTP, domaines, etc.</li>
+        <li><strong>Processus :</strong> SLAAC + DHCPv6 pour options</li>
+      </ul>
+      <div class="highlight">
+        💡 Le routeur annonce dans son RA que les paramètres supplémentaires sont disponibles via DHCPv6
+      </div>
+    </div>
+    
+    <div class="box box-config">
+      <div class="subsection">DHCPv6 Stateful</div>
+      <ul>
+        <li><strong>Adresse :</strong> Attribuée par serveur DHCPv6</li>
+        <li><strong>DHCPv6 :</strong> Fournit adresse complète + paramètres</li>
+        <li><strong>Fourni :</strong> Adresse GUA, DNS, etc.</li>
+        <li><strong>Processus :</strong> Similaire à DHCP IPv4</li>
+      </ul>
+      <div class="highlight">
+        💡 Le routeur annonce dans son RA que les clients doivent utiliser DHCPv6 pour l'adresse
+      </div>
+    </div>
+  </div>
+  
+  <div class="note">
+    <strong>Remarque :</strong> En IPv6, un périphérique peut obtenir plusieurs adresses via différentes méthodes :<br>
+    • Une LLA automatique (obligatoire)<br>
+    • Une GUA via SLAAC<br>
+    • Une autre GUA via DHCPv6<br>
+    • Des adresses temporaires pour la vie privée
+  </div>
+</div>
+
+<!-- 12 COMPARAISON -->
+<div class="section">
+  <div class="section-title">⚖️ 12. Comparaison IPv4 vs IPv6</div>
+  <div style="overflow-x: auto;">
+    <table>
+      <tr><th>Caractéristique</th><th>IPv4</th><th>IPv6</th></tr>
+      <tr><td><strong>Longueur adresse</strong></td><td>32 bits</td><td>128 bits</td></tr>
+      <tr><td><strong>Notation</strong></td><td>Décimale pointée</td><td>Hexadécimale séparée par des deux-points</td></tr>
+      <tr><td><strong>Types d'adresses</strong></td><td>Unicast, Multicast, Broadcast</td><td>Unicast, Multicast, Anycast</td></tr>
+      <tr><td><strong>Configuration auto</strong></td><td>DHCP (optionnel)</td><td>SLAAC (natif)</td></tr>
+      <tr><td><strong>DHCP</strong></td><td>Stateful uniquement</td><td>Stateful et Stateless</td></tr>
+      <tr><td><strong>Adresses privées</strong></td><td>10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</td><td>ULA (fc00::/7)</td></tr>
+      <tr><td><strong>Adresse loopback</strong></td><td>127.0.0.1</td><td>::1</td></tr>
+      <tr><td><strong>Sécurité</strong></td><td>IPsec optionnel</td><td>IPsec prévu nativement</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- CLAVES DE COULEUR -->
+<div class="section">
+  <div class="section-title">🎨 13. Clé de couleurs</div>
+  <div class="color-key">
+    <div class="color-item">
+      <div class="color-box" style="background: #00f5d4;"></div>
+      <span>GUA (Global Unicast)</span>
+    </div>
+    <div class="color-item">
+      <div class="color-box" style="background: #4cc9f0;"></div>
+      <span>LLA (Link-Local)</span>
+    </div>
+    <div class="color-item">
+      <div class="color-box" style="background: #9d4edd;"></div>
+      <span>ULA (Unique Local)</span>
+    </div>
+    <div class="color-item">
+      <div class="color-box" style="background: #f72585;"></div>
+      <span>Multicast</span>
+    </div>
+    <div class="color-item">
+      <div class="color-box" style="background: #ffd166;"></div>
+      <span>Adresses spéciales</span>
+    </div>
+    <div class="color-item">
+      <div class="color-box" style="background: #7209b7;"></div>
+      <span>Configuration</span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Poster Complet IPv6 - Adressage et Attribution des Adresses<br>
+  Format A1 (59.4 × 84.1 cm) - Pour formation et référence réseau L3
+</div>
+
+</div>
+</body>
+</html>
